@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../styles/pages.css'
-import {Textfield} from "../ui_components/TextField";
 import {AxiosInstance} from "../axios";
 import {DefaultButton} from "../ui_components/Button";
 

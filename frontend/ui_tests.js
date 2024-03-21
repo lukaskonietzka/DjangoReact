@@ -15,6 +15,8 @@ But you can build it up yourself by focusing on the workflow a human would follo
 - You perform the click
 
 To finde a Window you have to register a Window finder
+"set NODE_OPTIONS=--openssl-legacy-provider && react-scripts start"
+set NODE_OPTIONS=--openssl-legacy-provider && react-scripts build
  */
 
 import {
@@ -26,18 +28,18 @@ import {
   centerOf,
   singleWord,
 } from '@nut-tree/nut-js'
- //import {useBoltWindowFinder} from '@nut-tree/bolt'; we need an abo for that!
+import {useBoltWindowFinder} from '@nut-tree/bolt';
 
 
 
 (async () => {
 
-  // useBoltWindowFinder()
-  // const currentWindow = await screen.find(windowWithTitle('MeineApp'));
-  // currentWindow.focus()
-  // const createButton = await screen.find(singleWord("Create"))
-  // await mouse.move(straightTo(centerOf(createButton)));
+  useBoltWindowFinder()
+  const currentWindow = await screen.find(windowWithTitle('MeineApp'));
+  currentWindow.focus()
+  //const createButton = await screen.find(singleWord("Create"))
+ // await mouse.move(straightTo(centerOf(createButton)));
 
-  const target = new Point(500, 350);
-  await mouse.move(straightTo(target));
+  // const target = new Point(500, 350);
+  // await mouse.move(straightTo(target));
 })();

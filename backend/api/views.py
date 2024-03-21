@@ -14,7 +14,6 @@ class ProjectViewSet(viewsets.ViewSet):
     def getAllObjects(self):
         self.queryset = Project.objects.all()
 
-
     def list(self, request):
         self.getAllObjects()
         queryset = self.queryset
@@ -30,9 +29,9 @@ class ProjectViewSet(viewsets.ViewSet):
             return Response(serializer.errors, status=400)
 
     def retrieve(self, request, pk=None):
-            project = self.queryset.get(pk=pk)
-            serializer = self.serializer_class(project)
-            return Response(serializer.data)
+        project = self.queryset.get(pk=pk)
+        serializer = self.serializer_class(project)
+        return Response(serializer.data)
 
     def update(self, request, pk=None):
         project = self.queryset.get(pk=pk)

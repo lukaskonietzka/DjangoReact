@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {DefaultButton} from "../ui_components/Button";
-import {DefaultSelect} from "../ui_components/Select";
 import {AxiosInstance} from "../axios";
 import {TextField} from '@mui/material';
 
