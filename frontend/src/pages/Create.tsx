@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import {DefaultButton} from "../ui_components/Button";
 import {AxiosInstance} from "../axios";
 import {TextField} from '@mui/material';
-
+import {ValidationManager} from '../manager/ValidationManager'
+import {notify} from "../ui_components/Notifications";
 
 
 interface CurrentProject {
@@ -14,25 +15,33 @@ interface CurrentProject {
 }
 
 export const Create = () => {
+    const validationManager: ValidationManager = new ValidationManager();
     const [currentProject, setCurrentProject] = useState<CurrentProject>({
-        name: 'test',
+        name: '',
         start_date: '2023-10-13',
         end_date: '2023-10-14',
-        comments: 'test',
-        status: 'test'
+        comments: '',
+        status: ''
     });
 
    const sendData = (): void => {
-        AxiosInstance.post('project/', {
+       if (!validationManager.valide(currentProject.name) ||
+           !validationManager.valide(currentProject.comments) ||
+           !validationManager.valide(currentProject.status)) {
+           notify.error('Bitte füllen Sie alle Felder aus');
+           return
+       }
+       notify.success('Send to Backend')
+       AxiosInstance.post('project/', {
             name: currentProject.name,
             start_date: '2023-10-13',
             end_date: '2023-10-14',
             comments: currentProject.comments,
             status: currentProject.status
 
-        }).then((response) => {
+       }).then((response) => {
             console.log(response.data)
-        })
+       })
     }
 
     return(
@@ -87,7 +96,7 @@ export const Create = () => {
                   name={'Submit'}
                   disabled={false}
                   col={'col-md-2'}
-                  variant={'outlined'}
+                  variant={'contained'}
                   onClick={sendData}
                   type={'success'}
                   needSendIcon

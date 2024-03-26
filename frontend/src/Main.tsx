@@ -6,12 +6,14 @@ import {Create} from "./pages/Create";
 import {Home} from "./pages/Home";
 import 'bootstrap/dist/css/bootstrap.css'
 import {ReactJSXElement} from "@emotion/react/types/jsx-namespace";
+import {Notification} from "./ui_components/Notifications";
 
 function Main(): ReactJSXElement {
   return (
     <div>
         <BrowserRouter>
             <Navigation drawerWidth={240}/>
+            <Notification/>
             <Routes>
                 <Route path={''} element={<Home/>}/>
                 <Route path={'/create'} element={<Create/>}/>
