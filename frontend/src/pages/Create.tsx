@@ -39,10 +39,10 @@ export const Create = () => {
             comments: currentProject.comments,
             status: currentProject.status
 
-       }).then((response) => {
+       }).then((response): void => {
             console.log(response.data)
        })
-    }
+   }
 
     return(
       <div className={'pages-content'}>

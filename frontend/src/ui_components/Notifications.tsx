@@ -15,37 +15,37 @@ interface NotifyItem {
 export class Notify {
     private _addMessage = null
 
-    register(addMessage: (type: string, title: string, message: string[] | string) => void) {
+    register(addMessage: (type: string, title: string, message: string[] | string) => void): void {
         // @ts-ignore
         this._addMessage = addMessage
     }
 
-    unregister() {
+    unregister(): void {
         this._addMessage = null
     }
 
-    success (message: string[] | string) {
+    success (message: string[] | string): void {
         if (this._addMessage) {
             // @ts-ignore
             this._addMessage('success', 'Erfolg', message)
         }
     }
 
-    error (message: string[] | string) {
+    error (message: string[] | string): void {
         if (this._addMessage) {
             // @ts-ignore
             this._addMessage('error', 'Fehler', message)
         }
     }
 
-    warning (message: string[] | string) {
+    warning (message: string[] | string): void {
         if (this._addMessage) {
             // @ts-ignore
             this._addMessage('warning', 'Hinweis', message)
         }
     }
 
-    info (message: string[] | string) {
+    info (message: string[] | string): void {
         if (this._addMessage) {
             // @ts-ignore
             this._addMessage('info', 'Info', message)
@@ -65,7 +65,7 @@ export const Notification: React.FC = () => {
         }
     }, [])
 
-    const addMessage = (type: string, title: string, message: string | string[]) => {
+    const addMessage = (type: string, title: string, message: string | string[]): void => {
         const item: NotifyItem = {
             // @ts-ignore
             type: type,
@@ -86,7 +86,7 @@ export const Notification: React.FC = () => {
             return [...prevState]})
     }
 
-    const remove = (item: NotifyItem) => {
+    const remove = (item: NotifyItem): void => {
         setItems(prevState => {
             if (item.timeout) clearTimeout(item.timeout)
 
@@ -100,15 +100,15 @@ export const Notification: React.FC = () => {
         })
     }
 
-    const autoRemove = (item: NotifyItem) => {
+    const autoRemove = (item: NotifyItem): void => {
         if (item.auto) {
-            item.timeout = setTimeout(() => {
+            item.timeout = setTimeout((): void => {
                 remove(item)
             }, 5000)
         }
     }
 
-    const stopTimer = (item: NotifyItem) => {
+    const stopTimer = (item: NotifyItem): void => {
         if (item.timeout) clearTimeout(item.timeout)
         // @ts-ignore
         item.timeout = null
@@ -140,7 +140,7 @@ export const Notification: React.FC = () => {
                             }
                             {typeof item.message === 'object' &&
                                 <ul>
-                                    {item.message.map((msg, index) => (
+                                    {item.message.map((msg: string, index: number) => (
                                         <li className={'ui-notification-text'}
                                             key={index}
                                         >
