@@ -12,7 +12,7 @@ function Main(): ReactJSXElement {
   return (
     <div>
         <BrowserRouter>
-            <Navigation drawerWidth={240}/>
+            <Navigation position={'sticky'}/>
             <Notification/>
             <Routes>
                 <Route path={''} element={<Home/>}/>
