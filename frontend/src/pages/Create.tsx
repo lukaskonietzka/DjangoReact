@@ -28,10 +28,10 @@ export const Create = () => {
        if (!validationManager.valide(currentProject.name) ||
            !validationManager.valide(currentProject.comments) ||
            !validationManager.valide(currentProject.status)) {
-           notify.error('Bitte füllen Sie alle Felder aus');
+           notify.error('Bitte füllen Sie alle Felder aus!');
            return
        }
-       notify.success('Send to Backend')
+       notify.success('Saved')
        AxiosInstance.post('project/', {
             name: currentProject.name,
             start_date: '2023-10-13',

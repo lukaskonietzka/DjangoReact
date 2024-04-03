@@ -13,11 +13,11 @@ function Main(): ReactJSXElement {
         <div>
             <BrowserRouter>
                 <Navigation position={'sticky'}/>
-                <Notification/>
-                    <Routes>
-                        <Route path={''} element={<Home/>}/>
-                        <Route path={'/create'} element={<Create/>}/>
-                    </Routes>
+                <Notification variant={'outlined'}/>
+                <Routes>
+                    <Route path={''} element={<Home/>}/>
+                    <Route path={'/create'} element={<Create/>}/>
+                </Routes>
             </BrowserRouter>
         </div>
     );

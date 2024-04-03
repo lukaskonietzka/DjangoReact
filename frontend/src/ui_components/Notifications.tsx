@@ -56,7 +56,14 @@ export class Notify {
 export const notify: Notify = new Notify()
 
 
-export const Notification: React.FC = () => {
+interface NotificationProps {
+    variant?: 'standard' | 'filled' | 'outlined',
+    spacing?: number,
+    spacingBottom?: number,
+    spacingRight?: number
+}
+
+export const Notification: React.FC<NotificationProps> = (props: NotificationProps) => {
     const [items, setItems] = React.useState<NotifyItem[]>([])
 
     useEffect(() => {
@@ -117,14 +124,18 @@ export const Notification: React.FC = () => {
 
     return (
         <Stack
-            sx={{ width: '100%' }}
-            spacing={2}>
+            style={{
+                position:'fixed',
+                bottom: props.spacingBottom ? props.spacingBottom : 20,
+                right: props.spacingRight ? props.spacingRight: 20,
+        }}
+            spacing={props.spacing ? props.spacing : 2}>
             {items.map((item: NotifyItem, index: number) => {
                 return (
                     <Alert
                         key={index}
-                        variant={'filled'}
-                        style={{position:'fixed', bottom: 20, right: 20}}
+                        style={{ borderRadius: '10px'}}
+                        variant={props.variant ? props.variant : 'standard'}
                         severity={item.type}
                         onClick={() => remove(item)}
                         onMouseEnter={() => stopTimer(item)}

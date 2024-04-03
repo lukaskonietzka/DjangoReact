@@ -24,7 +24,12 @@ export const Navigation: React.FC<NavigationProps> = (props: NavigationProps) =>
         <AppBar position={props.position} style={{backgroundColor: '#8FBC8F', color: '#282c34'}}>
             <Toolbar>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    <SmartToyIcon/>
+                    <Button
+                        color="inherit"
+                        component={Link}
+                        to="/">
+                            <SmartToyIcon/>Green Assistant
+                    </Button>
                 </Typography>
                 <Tooltip title={'Home'} arrow>
                     <Button
