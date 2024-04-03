@@ -55,12 +55,13 @@ export class Notify {
 
 export const notify: Notify = new Notify()
 
+
 export const Notification: React.FC = () => {
     const [items, setItems] = React.useState<NotifyItem[]>([])
 
     useEffect(() => {
         notify.register(addMessage)
-        return () => {
+        return (): void => {
             notify.unregister()
         }
     }, [])
@@ -90,7 +91,7 @@ export const Notification: React.FC = () => {
         setItems(prevState => {
             if (item.timeout) clearTimeout(item.timeout)
 
-            const index = prevState.indexOf(item)
+            const index: number = prevState.indexOf(item)
 
             if (index !== -1) {
                 prevState.splice(index, 1)
@@ -122,28 +123,22 @@ export const Notification: React.FC = () => {
                 return (
                     <Alert
                         key={index}
+                        variant={'filled'}
+                        style={{position:'fixed', bottom: 20, right: 20}}
                         severity={item.type}
-                        style={{zIndex: '999999'}}
                         onClick={() => remove(item)}
                         onMouseEnter={() => stopTimer(item)}
                         onMouseLeave={() => autoRemove(item)}>
                         <div>
-                            <h4 className="ui-notification-title">
-                               {item.title}
-                            </h4>
                             {typeof item.message === 'string' &&
-                                <ul>
-                                    <li className={'ui-notification-text'}>
-                                        {item.message}
-                                    </li>
-                                </ul>
+                                <>
+                                    {item.message}
+                                </>
                             }
                             {typeof item.message === 'object' &&
                                 <ul>
                                     {item.message.map((msg: string, index: number) => (
-                                        <li className={'ui-notification-text'}
-                                            key={index}
-                                        >
+                                        <li key={index}>
                                             {msg}
                                         </li>
                                     ))}

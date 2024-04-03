@@ -9,18 +9,18 @@ import {ReactJSXElement} from "@emotion/react/types/jsx-namespace";
 import {Notification} from "./ui_components/Notifications";
 
 function Main(): ReactJSXElement {
-  return (
-    <div>
-        <BrowserRouter>
-            <Navigation position={'sticky'}/>
-            <Notification/>
-            <Routes>
-                <Route path={''} element={<Home/>}/>
-                <Route path={'/create'} element={<Create/>}/>
-            </Routes>
-        </BrowserRouter>
-    </div>
-  );
+    return (
+        <div>
+            <BrowserRouter>
+                <Navigation position={'sticky'}/>
+                <Notification/>
+                    <Routes>
+                        <Route path={''} element={<Home/>}/>
+                        <Route path={'/create'} element={<Create/>}/>
+                    </Routes>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default Main;
