@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import '../styles/pages.css'
 import {AxiosInstance} from "../axios";
 import {DefaultButton} from "../ui_components/Button";
+import {Box} from "@mui/material";
 
 
 interface Project {
@@ -21,26 +22,30 @@ export const Home = () => {
     }
 
     return(
-      <div className={'pages-content'}>
-          <div className={'row'}>
-              <DefaultButton
-                      id={'show'}
-                      name={'Show'}
-                      disabled={false}
-                      col={'col-md-2'}
-                      variant={'outlined'}
-                      onClick={handleButtonClick}
-                      type={'error'}
-                      needSendIcon={false}
-              />
-          </div>
-          <div className={'row'}>
-              {projects.map((project: Project) => {
-                  return(
-                      <div>Project name: {project.name}</div>
-                  )
-              })}
-          </div>
-      </div>
+        <div className={'pages-content'}>
+            <Box
+                sx={{
+                    display: 'grid',
+                    columnGap: 5,
+                    rowGap: 5,
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                }}>
+                <DefaultButton
+                    id={'show'}
+                    name={'Show'}
+                    disabled={false}
+                    col={'col-md-2'}
+                    variant={'outlined'}
+                    onClick={handleButtonClick}
+                    type={'error'}
+                    needSendIcon={false}
+                />
+                {projects.map((project: Project) => {
+                    return(
+                        <li>Project name: {project.name}</li>
+                    )
+                })}
+            </Box>
+        </div>
     )
 }

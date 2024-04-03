@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
 import AddIcon from '@mui/icons-material/Add';
 import InfoIcon from '@mui/icons-material/Info';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
 import {Link, useLocation} from "react-router-dom";
 import Button from '@mui/material/Button';
 import Tooltip from "@mui/material/Tooltip";
@@ -23,7 +24,7 @@ export const Navigation: React.FC<NavigationProps> = (props: NavigationProps) =>
         <AppBar position={props.position} style={{backgroundColor: '#8FBC8F', color: '#282c34'}}>
             <Toolbar>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  [LOGO] Green Assistent
+                    <SmartToyIcon/>
                 </Typography>
                 <Tooltip title={'Home'} arrow>
                     <Button

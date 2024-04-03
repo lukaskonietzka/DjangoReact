@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {DefaultButton} from "../ui_components/Button";
 import {AxiosInstance} from "../axios";
-import {TextField} from '@mui/material';
+import {Box, TextField} from '@mui/material';
 import {ValidationManager} from '../manager/ValidationManager'
 import {notify} from "../ui_components/Notifications";
 
@@ -45,63 +45,61 @@ export const Create = () => {
    }
 
     return(
-      <div className={'pages-content'}>
-          <div className={'row'}>
-              <div className={'col-md-2'}>
-                  <TextField
-                      id={'name'}
-                      name={'Name'}
-                      label={'Name'}
-                      placeholder={'type in your name'}
-                      onChange={(event):void => {
-                          setCurrentProject(values => ({
-                              ...values,
-                              ['name']: event.target.value
-                          }))
-                      }}
-                  />
-              </div>
-              <div className={'col-md-2'}>
-                  <TextField
-                      id={'comments'}
-                      name={'Comments'}
-                      label={'Comments'}
-                      placeholder={'type in your firstname'}
-                      onChange={(event):void => {
-                          setCurrentProject(values => ({
-                              ...values,
-                              ['comments']: event.target.value
-                          }))
-                      }}
-                  />
-              </div>
-              <div className={'col-md-2'}>
-                  <TextField
-                      id={'status'}
-                      name={'Status'}
-                      label={'Status'}
-                      placeholder={'type in your firstname'}
-                      onChange={(event):void => {
-                          setCurrentProject(values => ({
-                              ...values,
-                              ['status']: event.target.value
-                          }))
-                      }}
-                  />
-              </div>
-          </div>
-          <div className={'row'}>
-              <DefaultButton
-                  id={'submit'}
-                  name={'Submit'}
-                  disabled={false}
-                  col={'col-md-2'}
-                  variant={'contained'}
-                  onClick={sendData}
-                  type={'success'}
-                  needSendIcon
-              />
-          </div>
-      </div>
+        <div className={'pages-content'}>
+            <Box
+            sx={{
+                display: 'grid',
+                columnGap: 5,
+                rowGap: 5,
+                gridTemplateColumns: 'repeat(2, 1fr)',
+            }}>
+                <TextField
+                    id={'name'}
+                    name={'Name'}
+                    label={'Name'}
+                    placeholder={'type in your name'}
+                    onChange={(event):void => {
+                      setCurrentProject(values => ({
+                          ...values,
+                          ['name']: event.target.value
+                      }))
+                    }}
+                />
+                <TextField
+                    id={'comments'}
+                    name={'Comments'}
+                    label={'Comments'}
+                    placeholder={'type in your firstname'}
+                    onChange={(event):void => {
+                      setCurrentProject(values => ({
+                          ...values,
+                          ['comments']: event.target.value
+                      }))
+                    }}
+                />
+                <TextField
+                    id={'status'}
+                    name={'Status'}
+                    label={'Status'}
+                    placeholder={'type in your firstname'}
+                    onChange={(event):void => {
+                      setCurrentProject(values => ({
+                          ...values,
+                          ['status']: event.target.value
+                      }))
+                    }}
+                />
+                <DefaultButton
+                    id={'submit'}
+                    name={'Submit'}
+                    disabled={false}
+                    col={'col-md-2'}
+                    variant={'contained'}
+                    onClick={sendData}
+                    type={'success'}
+                    needSendIcon
+                />
+            </Box>
+        </div>
     )
 }
