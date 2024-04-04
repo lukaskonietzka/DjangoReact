@@ -3,5 +3,5 @@ from .views import *
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register('project', ProjectViewSet, basename='project')
+router.register('greenAssistant', GreenAssistantViewSet, basename='greenAssistant')
 urlpatterns = router.urls

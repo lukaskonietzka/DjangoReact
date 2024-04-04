@@ -1,18 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import viewsets, permissions, response
-from .models import Project
+from .models import GreenAssistantDB
 from rest_framework.response import Response
-from .serializers import ProjectSerializer
+from .serializers import GreenAssistantSerializer
 
 
-class ProjectViewSet(viewsets.ViewSet):
+class GreenAssistantViewSet(viewsets.ViewSet):
     permissions_classes = [permissions.AllowAny]
-    queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
+    queryset = GreenAssistantDB.objects.all()
+    serializer_class = GreenAssistantSerializer
 
     def getAllObjects(self):
-        self.queryset = Project.objects.all()
+        self.queryset = GreenAssistantDB.objects.all()
 
     def list(self, request):
         self.getAllObjects()

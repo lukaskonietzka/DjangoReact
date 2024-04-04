@@ -6,41 +6,35 @@ import {ValidationManager} from '../manager/ValidationManager'
 import {notify} from "../ui_components/Notifications";
 
 
-interface CurrentProject {
-    name: string,
-    start_date: string,
-    end_date: string,
-    comments: string,
-    status: string,
+interface CurrentState {
+    prompt: string,
+    answer: string
 }
 
 export const Create = () => {
     const validationManager: ValidationManager = new ValidationManager();
-    const [currentProject, setCurrentProject] = useState<CurrentProject>({
-        name: '',
-        start_date: '2023-10-13',
-        end_date: '2023-10-14',
-        comments: '',
-        status: ''
+    const [currentProject, setCurrentProject] = useState<CurrentState>({
+        prompt: '',
+        answer: ''
     });
 
    const sendData = (): void => {
-       if (!validationManager.valide(currentProject.name) ||
-           !validationManager.valide(currentProject.comments) ||
-           !validationManager.valide(currentProject.status)) {
+       if (!validationManager.valide(currentProject.prompt)) {
            notify.error('Bitte füllen Sie alle Felder aus!');
            return
        }
-       notify.success('Saved')
-       AxiosInstance.post('project/', {
-            name: currentProject.name,
-            start_date: '2023-10-13',
-            end_date: '2023-10-14',
-            comments: currentProject.comments,
-            status: currentProject.status
 
+       AxiosInstance.post('greenAssistant/', {
+            prompt: currentProject.prompt,
+            answer: 'as ist die Antwort 4'
        }).then((response): void => {
-            console.log(response.data)
+           notify.success('Saved')
+       }).catch((response): void => {
+           if (response.code === 'ERR_NETWORK') {
+               notify.error('Server konnte nicht erreicht werden')
+           } else {
+               notify.error('Die angegebene Feld existiert bereits')
+           }
        })
    }
 
@@ -54,44 +48,20 @@ export const Create = () => {
                 gridTemplateColumns: 'repeat(2, 1fr)',
             }}>
                 <TextField
-                    id={'name'}
-                    name={'Name'}
-                    label={'Name'}
-                    placeholder={'type in your name'}
+                    id={'prompt'}
+                    name={'prompt'}
+                    label={'Stell mir eine Frage!'}
+                    placeholder={'Stell mir eine Frage!'}
                     onChange={(event):void => {
                       setCurrentProject(values => ({
                           ...values,
-                          ['name']: event.target.value
-                      }))
-                    }}
-                />
-                <TextField
-                    id={'comments'}
-                    name={'Comments'}
-                    label={'Comments'}
-                    placeholder={'type in your firstname'}
-                    onChange={(event):void => {
-                      setCurrentProject(values => ({
-                          ...values,
-                          ['comments']: event.target.value
-                      }))
-                    }}
-                />
-                <TextField
-                    id={'status'}
-                    name={'Status'}
-                    label={'Status'}
-                    placeholder={'type in your firstname'}
-                    onChange={(event):void => {
-                      setCurrentProject(values => ({
-                          ...values,
-                          ['status']: event.target.value
+                          ['prompt']: event.target.value
                       }))
                     }}
                 />
                 <DefaultButton
                     id={'submit'}
-                    name={'Submit'}
+                    name={''}
                     disabled={false}
                     col={'col-md-2'}
                     variant={'contained'}
