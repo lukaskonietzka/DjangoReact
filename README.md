@@ -41,3 +41,4 @@
    cd backend
    pip freeze > requirements.txt
    ````
+   Es werden jedoch nur Module aufgelistet, die via *pip* installiert wurden.
