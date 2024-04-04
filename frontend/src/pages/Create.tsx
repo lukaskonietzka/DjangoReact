@@ -26,7 +26,7 @@ export const Create = () => {
 
        AxiosInstance.post('greenAssistant/', {
             prompt: currentProject.prompt,
-            answer: 'as ist die Antwort 4'
+            answer: ''
        }).then((response): void => {
            notify.success('Saved')
        }).catch((response): void => {

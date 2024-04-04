@@ -4,6 +4,7 @@ from rest_framework import viewsets, permissions, response
 from .models import GreenAssistantDB
 from rest_framework.response import Response
 from .serializers import GreenAssistantSerializer
+from .ki import KI
 
 
 class GreenAssistantViewSet(viewsets.ViewSet):
@@ -21,7 +22,8 @@ class GreenAssistantViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        serializer = self.serializer_class(data=request.data)
+        answer = KI.create_answer(prompt=request.data)
+        serializer = self.serializer_class(data=answer)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
