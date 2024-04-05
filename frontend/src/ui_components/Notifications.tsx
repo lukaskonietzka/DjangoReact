@@ -134,7 +134,7 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
                 return (
                     <Alert
                         key={index}
-                        style={{ borderRadius: '10px'}}
+                        style={{ borderRadius: '10px', cursor: 'pointer'}}
                         variant={props.variant ? props.variant : 'standard'}
                         severity={item.type}
                         onClick={() => remove(item)}
