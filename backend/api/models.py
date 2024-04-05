@@ -1,3 +1,7 @@
+"""
+DATAMODEL
+
+"""
 from django.db import models
 
 

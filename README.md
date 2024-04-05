@@ -1,25 +1,29 @@
 # Quickstart für Entwickler
 ### Um mit dem Entwickeln zu beginnen, bitte folgende Befehle beachten und ausführen:
 
-1. **An eine beliebige Stelle navigieren und das Repository über den Button *Code* per *ssh* oder *https* klonen mit:**
+1. **Als Erstes müssen die nötigen Tools installiert werden:**
+   - python -> https://www.python.org/downloads/
+   - node.js -> https://nodejs.org/en/download/
+
+2. **An eine beliebige Stelle navigieren und das Repository über den Button *Code* per *ssh* oder *https* klonen mit:**
    ````
    git clone [repo]
    ````
    Wenn kein *git* installiert ist, dann hier einmal herunterladen und installieren: https://git-scm.com/downloads
-2. **In den Ordner *backend* wechseln und alle packages installieren mit:**
+3. **In den Ordner *backend* wechseln und alle packages installieren mit:**
    ````
    cd backend
-   pip freeze
+   pip install -r requirements.txt
    ````
    Mit diesem Befehl werden alle Packages installiert, die in dem File *requirements.txt* angegeben sind
 
-3. **Dann in den Ordner *frontend* wechseln und alle Packages installieren mit:**
+4. **Dann in den Ordner *frontend* wechseln und alle Packages installieren mit:**
    ````
    cd frontend
    npm install
    ````
    
-4. **Dann eine Zweite Konsole öffnen**
+5. **Dann eine Zweite Konsole öffnen**
     - **Auf der einen wechseln wir in den *frontend* Ordner und starten den Frontend-Server:**
       ````
       cd frontend
@@ -33,10 +37,9 @@
       python manage.py runserver
       ````
       
-5. **Laufen beide Server ohne Probleme, so kann die Anwendung verwendet und modifiziert werden**
+6. **Laufen beide Server ohne Probleme, so kann die Anwendung verwendet und modifiziert werden**
 
-
-6. **Wurden während der Entwicklung neue Packages installiert, muss die *requirements.txt* aktualisiert werden.
+7. **Wurden während der Entwicklung neue Packages installiert, muss die *requirements.txt* aktualisiert werden.
    Hierzu einfach folgenden befehle im Ordner *backend* ausführen:**
    ````
    cd backend

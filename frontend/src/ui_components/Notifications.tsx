@@ -71,7 +71,7 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
         return (): void => {
             notify.unregister()
         }
-    }, [])
+    }, )
 
     const addMessage = (type: string, title: string, message: string | string[]): void => {
         const item: NotifyItem = {

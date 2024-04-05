@@ -1,5 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+"""
+API ENDPOINTS
+
+"""
+
 from rest_framework import viewsets, permissions, response
 from .models import GreenAssistantDB
 from rest_framework.response import Response

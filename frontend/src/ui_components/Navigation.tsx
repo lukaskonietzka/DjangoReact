@@ -6,7 +6,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import AddIcon from '@mui/icons-material/Add';
 import InfoIcon from '@mui/icons-material/Info';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
-import {Link, useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Button from '@mui/material/Button';
 import Tooltip from "@mui/material/Tooltip";
 
@@ -17,8 +17,6 @@ interface NavigationProps {
 }
 
 export const Navigation: React.FC<NavigationProps> = (props: NavigationProps) => {
-    const location = useLocation();
-    const path: string = location.pathname;
 
     return (
         <AppBar position={props.position} style={{backgroundColor: '#8FBC8F', color: '#282c34'}}>

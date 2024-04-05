@@ -1,3 +1,6 @@
+"""
+KI-MODEL
+"""
 
 class KI:
     @staticmethod
