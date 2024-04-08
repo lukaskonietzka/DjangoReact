@@ -4,11 +4,11 @@ import './styles/index.css';
 import Main from './Main';
 import reportWebVitals from './reportWebVitals';
 
-// window.addEventListener('click', function(event) {
-//     var x = event.clientX;
-//     var y = event.clientY;
-//     console.log('Koordinaten des geklickten Pixels: (' + x + ', ' + y + ')');
-// });
+window.addEventListener('click', function(event) {
+    var x = event.clientX;
+    var y = event.clientY;
+    console.log('Koordinaten des geklickten Pixels: (' + x + ', ' + y + ')');
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

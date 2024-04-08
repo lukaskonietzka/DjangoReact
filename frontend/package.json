@@ -10,7 +10,7 @@
     "@mui/material": "^5.15.12",
     "@nut-tree/bolt": "^2.0.0",
     "@nut-tree/nut-js": "^3.1.2",
-    "@nut-tree/plugin-ocr": "^2.0.1",
+    "@nut-tree/plugin-ocr": "^2.0.2",
     "@nut-tree/shared": "^4.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

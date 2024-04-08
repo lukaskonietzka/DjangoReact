@@ -18,75 +18,52 @@ To finde a Window you have to register a Window finder
 "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts start"
 set NODE_OPTIONS=--openssl-legacy-provider && react-scripts build
  */
-//
-//
-// import {
-//     windowWithTitle,
-//     centerOf,
-//     randomPointIn,
-//     mouse,
-//     sleep,
-//     screen,
-//     Region,
-//     straightTo,
-//     pixelWithColor,
-//     RGBA,
-//     getActiveWindow,
-//     Button,
-// } from '@nut-tree/nut-js';
-// import {useBoltWindowFinder, useBoltWindows} from '@nut-tree/bolt';
-//
-//
-// // Funktioniert
-// (async () => {
-//     useBoltWindowFinder();
-//
-//     // const windowRef = await screen.find(windowWithTitle('MeineApp - Google Chrome'));
-//     // const region = await windowRef.region;
-//     // await mouse.move(straightTo(centerOf(region)));
-//     // await mouse.leftClick()
-//
-//     const windowRef = await screen.find(windowWithTitle('MeineApp - Google Chrome'));
-//     await windowRef.focus();
-//
-//     const windowTitle = await windowRef.title;
-//     const windowRegion = await windowRef.region;
-//     console.log('Region: ', windowRegion);
-//     console.log('Title: ', windowTitle);
-//
-//     await mouse.move(straightTo(await centerOf(windowRegion)));
-//     await mouse.click(Button.LEFT);
-// })();
 
-import {screen, mouse, windowWithTitle, Button, singleWord, straightTo, centerOf, textLine} from "@nut-tree/nut-js";
+import {
+    screen,
+    mouse,
+    windowWithTitle,
+    Button,
+    singleWord,
+    straightTo,
+    centerOf,
+    textLine,
+    keyboard, Key, sleep, Region
+} from "@nut-tree/nut-js";
 import {useBoltWindowFinder} from "@nut-tree/bolt";
 
 import {configure, Language, LanguageModelType, preloadLanguages} from "@nut-tree/plugin-ocr";
 
 configure({
     languageModelType: LanguageModelType.BEST,
-    dataPath: ''
 });
 
 (async () => {
-    await preloadLanguages([Language.English, Language.German]);
+    useBoltWindowFinder();
 
-    screen.config.autoHighlight = true;
+    const window = await screen.find(windowWithTitle(/Green Assistant - .*/));
+    //await screen.highlight(window.region);
+    console.log(window.region);
+    console.log('width', await screen.width());
+    console.log('height', await screen.height());
 
-    const location = await screen.find(singleWord("ist"), {
-        providerData: {
-            lang: [Language.English, Language.German],
-            partialMatch: false,
-            caseSensitive: false
-        }
-    });
-    await mouse.move(
-        straightTo(
-            centerOf(
-                location
-            )
-        )
-    );
+    console.log(singleWord('Hallo'));
+
+    await screen.find(singleWord('Hallo'), {
+        confidence: 0.40,
+        searchRegion: window.region
+    })
+
+    await mouse.move(straightTo(centerOf(window.region)));
+    await mouse.click(Button.LEFT);
+
+
+    for(let i=1; i<=5; i++) {
+        await keyboard.pressKey(Key.Tab);
+    }
+    await keyboard.type('bla');
+    await keyboard.pressKey(Key.Tab);
+    await keyboard.pressKey(Key.Enter);
 })();
 
 

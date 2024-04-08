@@ -69,6 +69,13 @@ export const Create = () => {
                     type={'success'}
                     needSendIcon
                 />
+                <Box style={{
+                    alignItems: 'center',
+                    justifyContent:'center',
+                    display: 'flex'
+                }}>
+                    Hallo
+                </Box>
             </Box>
         </div>
     )
