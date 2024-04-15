@@ -20,7 +20,7 @@ export const Create = () => {
 
    const sendData = (): void => {
        if (!validationManager.valide(currentProject.prompt)) {
-           notify.error('Bitte füllen Sie alle Felder aus!');
+           notify.error('Bitte füllen Sie alle Felder aus');
            return
        }
 
@@ -50,8 +50,8 @@ export const Create = () => {
                 <TextField
                     id={'prompt'}
                     name={'prompt'}
-                    label={'Stell mir eine Frage!'}
-                    placeholder={'Stell mir eine Frage!'}
+                    label={'Stell mir eine Frage'}
+                    placeholder={'Stell mir eine Frage'}
                     onChange={(event):void => {
                       setCurrentProject(values => ({
                           ...values,
@@ -61,7 +61,7 @@ export const Create = () => {
                 />
                 <DefaultButton
                     id={'submit'}
-                    name={''}
+                    name={'Send'}
                     disabled={false}
                     col={'col-md-2'}
                     variant={'contained'}
@@ -74,7 +74,7 @@ export const Create = () => {
                     justifyContent:'center',
                     display: 'flex'
                 }}>
-                    Hallo
+                    Hallo ich bin eine Anwendung
                 </Box>
             </Box>
         </div>

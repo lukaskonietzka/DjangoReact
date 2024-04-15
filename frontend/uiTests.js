@@ -19,7 +19,7 @@ To finde a Window you have to register a Window finder
 set NODE_OPTIONS=--openssl-legacy-provider && react-scripts build
  */
 
-import {
+const {
     screen,
     mouse,
     windowWithTitle,
@@ -29,41 +29,95 @@ import {
     centerOf,
     textLine,
     keyboard, Key, sleep, Region
-} from "@nut-tree/nut-js";
-import {useBoltWindowFinder} from "@nut-tree/bolt";
+} = require ("@nut-tree/nut-js");
+const {useBoltWindowFinder} = require ("@nut-tree/bolt");
 
-import {configure, Language, LanguageModelType, preloadLanguages} from "@nut-tree/plugin-ocr";
+const {configure, Language, LanguageModelType, preloadLanguages} = require ("@nut-tree/plugin-ocr");
 
 configure({
     languageModelType: LanguageModelType.BEST,
 });
 
+function isTextLine(word) {
+    for (let i = 0; i < word.length; i++) {
+        if (word[i] === ' ') {
+            return  true;
+        }
+    }
+    return false
+}
+
+async function moveMouseToRegion(word, caseSensitive) {
+    try {
+        await preloadLanguages([Language.English, Language.German]);
+        screen.config.confidence = 0.7;
+        screen.config.autoHighlight = true;
+        screen.config.highlightDurationMs = 1000;
+        screen.config.highlightOpacity = .5;
+
+        if (isTextLine(word)) {
+            // locate the button or another target
+            console.log('Searching for line ...')
+            const regionTextLine = await screen.find(textLine(word), {
+                providerData: {
+                    lang: [Language.German, Language.English],
+                    confidence: 0.5,
+                    caseSensitive: caseSensitive,
+                    partialMatch: true,
+                }
+            });
+            // move to the button
+            await mouse.move(straightTo(centerOf(regionTextLine)));
+
+        } else {
+            console.log('Searching for word ...')
+            const regionSingleWord = await screen.find(singleWord(word), {
+                providerData: {
+                    lang: [Language.German, Language.English],
+                    confidence: 0.8,
+                    caseSensitive: caseSensitive,
+                    partialMatch: true,
+                }
+            });
+            await mouse.move(straightTo(centerOf(regionSingleWord)));
+        }
+
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 (async () => {
     useBoltWindowFinder();
 
+    // You identify the window you want to target and focus them
     const window = await screen.find(windowWithTitle(/Green Assistant - .*/));
-    //await screen.highlight(window.region);
-    console.log(window.region);
-    console.log('width', await screen.width());
-    console.log('height', await screen.height());
+    await mouse.move(straightTo(centerOf(window.region)))
 
-    console.log(singleWord('Hallo'));
-
-    await screen.find(singleWord('Hallo'), {
-        confidence: 0.40,
-        searchRegion: window.region
-    })
+    // locate the button or another target and move to it
+    await moveMouseToRegion('CREATE', true);
+    // performe a click
+    await mouse.click(Button.LEFT);
 
     await mouse.move(straightTo(centerOf(window.region)));
     await mouse.click(Button.LEFT);
 
-
+    // text search takes a while, pressing 'tab' and 'enter' could be faster.
     for(let i=1; i<=5; i++) {
         await keyboard.pressKey(Key.Tab);
     }
-    await keyboard.type('bla');
+    await keyboard.type('');
+
     await keyboard.pressKey(Key.Tab);
     await keyboard.pressKey(Key.Enter);
+
+    // give the element a chance to appear
+    await sleep(1000);
+
+    await moveMouseToRegion('Bitte füllen Sie alle Felder aus', true);
+    await mouse.click(Button.LEFT);
+    await mouse.move(straightTo(centerOf(window.region)));
+
 })();
 
 

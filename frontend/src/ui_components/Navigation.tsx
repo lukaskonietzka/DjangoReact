@@ -34,7 +34,7 @@ export const Navigation: React.FC<NavigationProps> = (props: NavigationProps) =>
                         color="inherit"
                         component={Link}
                         to="/">
-                            <HomeIcon/>
+                            <HomeIcon/>Home
                     </Button>
                 </Tooltip>
                 <Tooltip title={'Create'} arrow>
@@ -42,7 +42,7 @@ export const Navigation: React.FC<NavigationProps> = (props: NavigationProps) =>
                         color="inherit"
                         component={Link}
                         to="/create">
-                            <AddIcon/>
+                            <AddIcon/>Create
                     </Button>
                 </Tooltip>
                 <Tooltip title={'About'} arrow>
@@ -50,7 +50,7 @@ export const Navigation: React.FC<NavigationProps> = (props: NavigationProps) =>
                         color="inherit"
                         component={Link}
                         to="/contact">
-                            <InfoIcon/>
+                            <InfoIcon/>About
                     </Button>
                 </Tooltip>
             </Toolbar>
