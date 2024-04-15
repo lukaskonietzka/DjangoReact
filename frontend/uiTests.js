@@ -23,6 +23,7 @@ Issues:
  - Docu
   - Tutorial ocr-plugin
    - ocrConfidence does not exist, use confidence instead
+ - Weiß auf schwarz ist schlecht
 
  */
 
@@ -46,6 +47,15 @@ configure({
     languageModelType: LanguageModelType.BEST,
 });
 
+async function startIn(seconds) {
+    console.log('Application stats in ...')
+    for (let i=seconds; i>0; i--) {
+        console.log(i + 's');
+        await sleep(1000);
+    }
+    console.log('Start');
+}
+
 function isTextLine(word) {
     for (let i = 0; i < word.length; i++) {
         if (word[i] === ' ') {
@@ -55,10 +65,10 @@ function isTextLine(word) {
     return false
 }
 
-async function moveMouseToRegion(word, caseSensitive) {
+async function moveMouseToRegion(word, caseSensitive, printError) {
     try {
         await preloadLanguages([Language.English, Language.German]);
-        screen.config.confidence = 0.7;
+        screen.config.confidence = 0.6;
         screen.config.autoHighlight = true;
         screen.config.highlightDurationMs = 1000;
         screen.config.highlightOpacity = .5;
@@ -93,44 +103,53 @@ async function moveMouseToRegion(word, caseSensitive) {
 
     } catch (e) {
         console.log('Cant find region!');
+        if (printError) {
+            console.log(e);
+        }
         return false;
     }
 }
 
 (async () => {
+    await startIn(3);
+
     // register a window finder
     useBoltWindowFinder();
 
     // You identify the window you want to target and focus them
-    const window = await screen.find(windowWithTitle(/Green Assistant - .*/));
+    const window = await screen
+        .find(windowWithTitle(/Technische Hochschule Augsburg - .*/));
     await mouse.move(straightTo(centerOf(window.region)))
 
     // locate the button or another target and move to it
     // methode returns true, when region exists
-    await moveMouseToRegion('CREATE', true);
+    await moveMouseToRegion('MELDUNGEN', true, false);
     // performe a click
     await mouse.click(Button.LEFT);
 
-    await mouse.move(straightTo(centerOf(window.region)));
-    await mouse.click(Button.LEFT);
-
     // text search takes a while, pressing 'tab' and 'enter' could be faster.
-    for(let i=1; i<=5; i++) {
-        await keyboard.pressKey(Key.Tab);
-    }
-    await keyboard.type('');
+    // for(let i=1; i<=5; i++) {
+    //     await keyboard.pressKey(Key.Tab);
+    // }
+    // await keyboard.type('');
+    //
+    // await keyboard.pressKey(Key.Tab);
+    // await keyboard.pressKey(Key.Enter);
 
-    await keyboard.pressKey(Key.Tab);
-    await keyboard.pressKey(Key.Enter);
+    await moveMouseToRegion('Auszeichnung', true, true);
 
-    // search for a non-existent region
+    // await moveMouseToRegion('Bitte füllen Sie alle Felder aus', true);
+    // await mouse.click(Button.LEFT);
+    // await mouse.move(straightTo(centerOf(window.region)));
+
+   // search for a non-existent region
     await moveMouseToRegion('foo', true);
 
-    await moveMouseToRegion('Bitte füllen Sie alle Felder aus', true);
-    await mouse.click(Button.LEFT);
-    await mouse.move(straightTo(centerOf(window.region)));
+    //await moveMouseToRegion('Hallo ich bin eine Anwendung', true);
 
-
+    /*
+    Usability tests mit nut.js ausprobieren !!!!!!!
+     */
 })();
 
 

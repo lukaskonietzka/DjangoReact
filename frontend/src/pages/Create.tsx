@@ -72,7 +72,8 @@ export const Create = () => {
                 <Box style={{
                     alignItems: 'center',
                     justifyContent:'center',
-                    display: 'flex'
+                    display: 'flex',
+                    fontSize: '8px'
                 }}>
                     Hallo ich bin eine Anwendung
                 </Box>
