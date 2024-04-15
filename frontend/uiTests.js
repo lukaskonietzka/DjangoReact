@@ -1,4 +1,6 @@
 /*
+Philosophy of nut.js
+----------------------------
 nut.js is a desktop automation framework.
 It allows you to program your computer using JavaScript or TypeScript by imitating real user input.
 And this is also the core concept of nut.js.
@@ -14,24 +16,30 @@ But you can build it up yourself by focusing on the workflow a human would follo
 - You move the mouse over the button
 - You perform the click
 
-To finde a Window you have to register a Window finder
 "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts start"
 set NODE_OPTIONS=--openssl-legacy-provider && react-scripts build
+
+Issues:
+ - Docu
+  - Tutorial ocr-plugin
+   - ocrConfidence does not exist, use confidence instead
+
  */
 
 const {
     screen,
     mouse,
-    windowWithTitle,
+    keyboard,
+    Key,
     Button,
+    windowWithTitle,
     singleWord,
     straightTo,
     centerOf,
     textLine,
-    keyboard, Key, sleep, Region
+    sleep
 } = require ("@nut-tree/nut-js");
 const {useBoltWindowFinder} = require ("@nut-tree/bolt");
-
 const {configure, Language, LanguageModelType, preloadLanguages} = require ("@nut-tree/plugin-ocr");
 
 configure({
@@ -41,7 +49,7 @@ configure({
 function isTextLine(word) {
     for (let i = 0; i < word.length; i++) {
         if (word[i] === ' ') {
-            return  true;
+            return true;
         }
     }
     return false
@@ -81,13 +89,16 @@ async function moveMouseToRegion(word, caseSensitive) {
             });
             await mouse.move(straightTo(centerOf(regionSingleWord)));
         }
+        return true
 
     } catch (e) {
-        console.log(e)
+        console.log('Cant find region!');
+        return false;
     }
 }
 
 (async () => {
+    // register a window finder
     useBoltWindowFinder();
 
     // You identify the window you want to target and focus them
@@ -95,6 +106,7 @@ async function moveMouseToRegion(word, caseSensitive) {
     await mouse.move(straightTo(centerOf(window.region)))
 
     // locate the button or another target and move to it
+    // methode returns true, when region exists
     await moveMouseToRegion('CREATE', true);
     // performe a click
     await mouse.click(Button.LEFT);
@@ -111,12 +123,13 @@ async function moveMouseToRegion(word, caseSensitive) {
     await keyboard.pressKey(Key.Tab);
     await keyboard.pressKey(Key.Enter);
 
-    // give the element a chance to appear
-    await sleep(1000);
+    // search for a non-existent region
+    await moveMouseToRegion('foo', true);
 
     await moveMouseToRegion('Bitte füllen Sie alle Felder aus', true);
     await mouse.click(Button.LEFT);
     await mouse.move(straightTo(centerOf(window.region)));
+
 
 })();
 
