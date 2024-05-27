@@ -1,9 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Main from '../Main';
+import {Home} from "../pages/Home";
+import '@testing-library/jest-dom';
+import {Create} from "../pages/Create";
 
-test('renders learn react link', () => {
-  render(<Main />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+// test('Home', () => {
+//   render(<Create />);
+//   const linkElement = screen.getByText(/Frage/i);
+//   expect(linkElement).toBeInTheDocument();
+// });

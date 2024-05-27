@@ -24,7 +24,7 @@ export const DefaultButton: React.FC<ButtonProps> = (props: ButtonProps) => {
              variant={props.variant}
              className={props.col ? props.col : 'col-md-6'}
              onClick={props.onClick}
-             color={props.type}
+             color={'inherit'}
              startIcon={props.needSendIcon ? <SendIcon/> : ''}
              autoFocus={props.setFocus}
          >

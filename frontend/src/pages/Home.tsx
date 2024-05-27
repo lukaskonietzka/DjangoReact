@@ -38,7 +38,7 @@ export const Home = () => {
                     col={'col-md-2'}
                     variant={'outlined'}
                     onClick={fetchData}
-                    type={'error'}
+                    type={'success'}
                     needSendIcon={false}
                 />
                 {projects.map((currentState: CurrentState, index: number) => {

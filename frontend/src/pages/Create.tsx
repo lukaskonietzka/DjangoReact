@@ -58,6 +58,7 @@ export const Create = () => {
                           ['prompt']: event.target.value
                       }))
                     }}
+
                 />
                 <DefaultButton
                     id={'submit'}
@@ -73,9 +74,9 @@ export const Create = () => {
                     alignItems: 'center',
                     justifyContent:'center',
                     display: 'flex',
-                    fontSize: '8px'
+                    fontSize: '16px'
                 }}>
-                    Hallo ich bin eine Anwendung
+                    Frage
                 </Box>
             </Box>
         </div>

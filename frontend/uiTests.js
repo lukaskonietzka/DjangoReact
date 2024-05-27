@@ -26,7 +26,6 @@ Issues:
  - Weiß auf schwarz ist schlecht
 
  */
-
 const {
     screen,
     mouse,
@@ -38,14 +37,23 @@ const {
     straightTo,
     centerOf,
     textLine,
-    sleep
+    sleep,
+    Point,
+    jestMatchers
 } = require ("@nut-tree/nut-js");
 const {useBoltWindowFinder} = require ("@nut-tree/bolt");
 const {configure, Language, LanguageModelType, preloadLanguages} = require ("@nut-tree/plugin-ocr");
+//expect.extend(jestMatchers);
+
 
 configure({
     languageModelType: LanguageModelType.BEST,
 });
+
+async function scrollWindowHeight(currentWindow) {
+    await mouse.scrollDown((await currentWindow.region).height/2)
+}
+
 
 async function startIn(seconds) {
     console.log('Application stats in ...')
@@ -67,38 +75,7 @@ function isTextLine(word) {
 
 async function moveMouseToRegion(word, caseSensitive, printError) {
     try {
-        await preloadLanguages([Language.English, Language.German]);
-        screen.config.confidence = 0.6;
-        screen.config.autoHighlight = true;
-        screen.config.highlightDurationMs = 1000;
-        screen.config.highlightOpacity = .5;
-
-        if (isTextLine(word)) {
-            // locate the button or another target
-            console.log('Searching for line ...')
-            const regionTextLine = await screen.find(textLine(word), {
-                providerData: {
-                    lang: [Language.German, Language.English],
-                    confidence: 0.5,
-                    caseSensitive: caseSensitive,
-                    partialMatch: true,
-                }
-            });
-            // move to the button
-            await mouse.move(straightTo(centerOf(regionTextLine)));
-
-        } else {
-            console.log('Searching for word ...')
-            const regionSingleWord = await screen.find(singleWord(word), {
-                providerData: {
-                    lang: [Language.German, Language.English],
-                    confidence: 0.8,
-                    caseSensitive: caseSensitive,
-                    partialMatch: true,
-                }
-            });
-            await mouse.move(straightTo(centerOf(regionSingleWord)));
-        }
+        await setupSearching(word, caseSensitive);
         return true
 
     } catch (e) {
@@ -110,6 +87,88 @@ async function moveMouseToRegion(word, caseSensitive, printError) {
     }
 }
 
+async function setupSearching(word, caseSensitive) {
+    await preloadLanguages([Language.English, Language.German]);
+    screen.config.confidence = 0.6;
+    screen.config.autoHighlight = true;
+    screen.config.highlightDurationMs = 1000;
+    screen.config.highlightOpacity = .5;
+
+    if (isTextLine(word)) {
+        // locate the button or another target
+        console.log('Searching for line ...')
+        const regionTextLine = await screen.find(textLine(word), {
+            providerData: {
+                lang: [Language.German, Language.English],
+                confidence: 0.5,
+                caseSensitive: caseSensitive,
+                partialMatch: true,
+            }
+        });
+        // move to the button
+        await mouse.move(straightTo(centerOf(regionTextLine)));
+
+    } else {
+        console.log('Searching for word ...')
+        const regionSingleWord = await screen.find(singleWord(word), {
+            providerData: {
+                lang: [Language.German, Language.English],
+                confidence: 0.8,
+                caseSensitive: caseSensitive,
+                partialMatch: true,
+            }
+        });
+        await mouse.move(straightTo(centerOf(regionSingleWord)));
+    }
+}
+
+async function moveMouseToRegionOrScroll(word, caseSensitive, printError, currentWindow) {
+    try {
+        await preloadLanguages([Language.English, Language.German]);
+        screen.config.confidence = 0.6;
+        screen.config.autoHighlight = true;
+        screen.config.highlightDurationMs = 1000;
+        screen.config.highlightOpacity = .5;
+
+    if (isTextLine(word)) {
+        // locate the button or another target
+        console.log('Searching for line ...')
+        const regionTextLine = await screen.find(textLine(word), {
+            providerData: {
+                lang: [Language.German, Language.English],
+                confidence: 0.5,
+                caseSensitive: caseSensitive,
+                partialMatch: true,
+            }
+        });
+        // move to the button
+        await mouse.move(straightTo(centerOf(regionTextLine)));
+
+    } else {
+        console.log('Searching for word ...')
+        const regionSingleWord = await screen.find(singleWord(word), {
+            providerData: {
+                lang: [Language.German, Language.English],
+                confidence: 0.8,
+                caseSensitive: caseSensitive,
+                partialMatch: true,
+            }
+        });
+        await mouse.move(straightTo(centerOf(regionSingleWord)));
+    }
+        return true
+
+    } catch (e) {
+        console.log('Cant find region! -> scroll')
+        await scrollWindowHeight(currentWindow);
+        await sleep(1000);
+        await moveMouseToRegionOrScroll(word, caseSensitive, printError, currentWindow);
+        return false
+    }
+}
+
+
+
 (async () => {
     await startIn(3);
 
@@ -117,16 +176,37 @@ async function moveMouseToRegion(word, caseSensitive, printError) {
     useBoltWindowFinder();
 
     // You identify the window you want to target and focus them
-    const window = await screen
-        .find(windowWithTitle(/Technische Hochschule Augsburg - .*/));
-    await mouse.move(straightTo(centerOf(window.region)))
+    const currentWindow = await screen
+        .find(windowWithTitle(/Green Assistant - .*/));
+    await mouse.move(straightTo(centerOf(currentWindow.region)))
 
     // locate the button or another target and move to it
     // methode returns true, when region exists
-    await moveMouseToRegion('MELDUNGEN', true, false);
+    await moveMouseToRegion('HOME', true, false);
+
     // performe a click
     await mouse.click(Button.LEFT);
 
+    await moveMouseToRegion('SHOW DATA', true);
+    await mouse.click(Button.LEFT);
+
+   //  while (!await moveMouseToRegionOrScroll('Antwort: SDFsdf prompt: SDFsdf', true, false, currentWindow)) {
+   //      await scrollWindowHeight(currentWindow);
+   //      await sleep(1000);
+   //  }
+   // await mouse.click(Button.LEFT);
+   //
+   //  while (!await moveMouseToRegionOrScroll('Antwort: manu prompt: manu', true, false, currentWindow)) {
+   //      await scrollWindowHeight(currentWindow);
+   //      await sleep(1000);
+   //  }
+    await moveMouseToRegionOrScroll('Antwort: SDFsdf prompt: SDFsdf', true, false, currentWindow);
+    await mouse.click(Button.LEFT);
+
+    await moveMouseToRegionOrScroll('Antwort: manu prompt: manu', true, false, currentWindow);
+    await mouse.click(Button.LEFT);
+
+    //await mouse.scrollDown(window.getSize.length);
     // text search takes a while, pressing 'tab' and 'enter' could be faster.
     // for(let i=1; i<=5; i++) {
     //     await keyboard.pressKey(Key.Tab);
@@ -136,20 +216,6 @@ async function moveMouseToRegion(word, caseSensitive, printError) {
     // await keyboard.pressKey(Key.Tab);
     // await keyboard.pressKey(Key.Enter);
 
-    await moveMouseToRegion('Auszeichnung', true, true);
-
-    // await moveMouseToRegion('Bitte füllen Sie alle Felder aus', true);
-    // await mouse.click(Button.LEFT);
-    // await mouse.move(straightTo(centerOf(window.region)));
-
-   // search for a non-existent region
-    await moveMouseToRegion('foo', true);
-
-    //await moveMouseToRegion('Hallo ich bin eine Anwendung', true);
-
-    /*
-    Usability tests mit nut.js ausprobieren !!!!!!!
-     */
 })();
 
 
