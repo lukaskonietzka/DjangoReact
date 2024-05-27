@@ -14,6 +14,9 @@ Des Weiteren werden in der Konsole lint-Errors (Code Qualiti) angezeigt.
 
 Sammelt alle Test ein und führt sie aus.\
 
+### `npm run uiTest`
+
+Sammelt alle uiTest ein und führt sie aus.\
 
 ## React Doku
 
